@@ -1,0 +1,1 @@
+"C:\Users\divineschool\Desktop\vsc\.venv\Scripts\activate.bat"

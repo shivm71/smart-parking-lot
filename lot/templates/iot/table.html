@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+{% if greet %}
+<h2>HELLO , {{ greet.owner }} your {{ greet.typee }} {{greet.manu}} {{greet.model}} is parked at below slot</h2>
+{% endif %}
+<h2>SLOT TABLE</h2>
+<table>
+  <tr>
+    <th>SLOT NUMBER</th>
+    <th>CAR REGISTRATION NUMBER</th>
+    <th>CAR CHARGING LEVEL</th>
+    <th>PARK TIME </th>
+    <th>PARK</th>
+    <th>UNPARK</th>
+  </tr>
+{% if list %}
+    {% for slot in list %}
+        <tr>
+          <td>{{ slot.slot_id }}</td>
+          <td>{{ slot.reg_no }}</td>
+          <td>{{ slot.level }}</td>
+          <td>{{ slot.parked_time }}</td>
+          {% if not slot.booked %}
+              <td><form action="{% url 'lot:park' slot.id %}" method="post"> {% csrf_token %}
+                REG NO: <input type="text" name="name" /><button type = "submit">BOOK</button><br /></form></td>
+              <td>--</td>   
+          {% else %}
+              <td>--</td> 
+              <td><form action="{% url 'lot:unpark' slot.id %}" method="post"> {% csrf_token %}  
+              <button type = "submit">UNPARK</button><br /></form></td>
+          {% endif  %}      
+
+        </tr>
+        
+    {% endfor %}
+{% else %}
+    <p>NO SLOT AVAILABLE</p>
+{% endif %}
+
+  
+</table>
+
+</body>
+</html>
